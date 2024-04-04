@@ -2,7 +2,7 @@
 {
     internal class Asset(string type, string brand, string model, string office, DateOnly purchaseDate, decimal priceUSD, string currency, decimal localPriceToday)
     {
-         public string Type { get; set; } = type;
+        public string Type { get; set; } = type;
         public string Brand { get; set; } = brand;
         public string Model { get; set; } = model;
         public string Office { get; set; } = office;
@@ -14,7 +14,7 @@
 
     internal class Computer : Asset
     {
-        public Computer(string type,string brand, string model, string office, DateOnly purchaseDate, decimal priceUSD, string currency, decimal localPriceToday) : base(type, brand, model, office, purchaseDate, priceUSD, currency, localPriceToday)
+        public Computer(string type, string brand, string model, string office, DateOnly purchaseDate, decimal priceUSD, string currency, decimal localPriceToday) : base(type, brand, model, office, purchaseDate, priceUSD, currency, localPriceToday)
         {
         }
     }
