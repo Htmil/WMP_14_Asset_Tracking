@@ -1,11 +1,9 @@
-﻿
-using WMP_14_Asset_Tracking;
+﻿using WMP_14_Asset_Tracking;
 
 
 Console.Title = "Asset Tracker";
 Console.SetWindowSize(130, 15);
 Console.ForegroundColor = ConsoleColor.White;
-
 
 decimal usdToSek = 10.68m;
 decimal usdToEur = 0.92m;
@@ -22,21 +20,17 @@ List<Asset> assetList = new List<Asset>
     new Computer(   "Computer", "HP",           "Elitebook",        "Sweden",   new DateOnly(2020, 07, 30),     2234,       "SEK",      2234 * usdToSek)
 };
 
-
 static void DisplayAssets(List<Asset> assetList)
 {
     int padding = 15;
     DateOnly dateToday = DateOnly.FromDateTime(DateTime.Today);
     assetList = assetList.OrderBy(asset => asset.Type).ThenBy(asset => asset.PurchaseDate).ToList();
 
-
     Console.WriteLine("    Type".PadRight(padding) + "Brand".PadRight(padding) + "Model".PadRight(padding) + "Office".PadRight(padding) + "Purchase Date".PadRight(padding) + "Price in USD".PadRight(padding) + "Currency".PadRight(padding) + "Local price today");
     Console.WriteLine("    ----".PadRight(padding) + "-----".PadRight(padding) + "-----".PadRight(padding) + "------".PadRight(padding) + "-------------".PadRight(padding) + "------------".PadRight(padding) + "--------".PadRight(padding) + "-----------------");
 
-    foreach (var asset in assetList) 
+    foreach (var asset in assetList)
     {
-        //bool isNearExpiry = asset.PurchaseDate < assetLifespan;
-        //bool isExpired = asset.PurchaseDate < endDate;
         var ThreeMonthsBeforeExpired = asset.PurchaseDate.AddYears(2).AddMonths(9);
         var SixMonthsBeforeExpired = asset.PurchaseDate.AddYears(2).AddMonths(6);
 
@@ -44,7 +38,7 @@ static void DisplayAssets(List<Asset> assetList)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
         }
-        else if (asset.PurchaseDate.AddYears(2).AddMonths(9) < dateToday) 
+        else if (ThreeMonthsBeforeExpired < dateToday)
         {
             Console.ForegroundColor = ConsoleColor.Red;
         }
@@ -56,6 +50,7 @@ static void DisplayAssets(List<Asset> assetList)
         Console.WriteLine($"    {asset.Type}".PadRight(padding) + $"{asset.Brand}".PadRight(padding) + $"{asset.Model}".PadRight(padding) + $"{asset.Office}".PadRight(padding) + $"{asset.PurchaseDate}".PadRight(padding) + $"{asset.PriceUSD}".PadRight(padding) + $"{asset.Currency}".PadRight(padding) + $"{asset.LocalPriceToday}");
         Console.ForegroundColor = ConsoleColor.White;
     }
+
     UserFeedback("\n    Press any key to Continue", false);
     Console.ReadLine();
     ShowMainMenu(assetList);
@@ -63,16 +58,14 @@ static void DisplayAssets(List<Asset> assetList)
 
 static void AddAssetMenu(List<Asset> assetList)
 {
-    //Console.Clear();
     Console.WriteLine("Enter asset type: ");
     Console.WriteLine("1-Computer");
     Console.WriteLine("2-Phone");
-    //Console.WriteLine("3-Search a Product");
     Console.WriteLine("0-Quit");
-
     Console.Write("\nEnter a Number: ");
     string userInput = Console.ReadLine();
     Console.Clear();
+
     switch (userInput)
     {
         case "1":
@@ -92,10 +85,7 @@ static void AddAssetMenu(List<Asset> assetList)
 }
 
 static void AddAsset(List<Asset> assetList, bool isComputer)
-// brand,model,office,purchaseDate,priceUSD,currency,localPriceToday);
 {
-    //Console.Clear();
-
     string brand;
     string model;
     string office;
@@ -113,7 +103,8 @@ static void AddAsset(List<Asset> assetList, bool isComputer)
         if (string.IsNullOrWhiteSpace(brand))
         {
             UserFeedback("Please enter a Brand");
-        } else
+        }
+        else
         {
             break;
         }
@@ -126,7 +117,8 @@ static void AddAsset(List<Asset> assetList, bool isComputer)
         if (string.IsNullOrWhiteSpace(model))
         {
             UserFeedback("Please enter a Model");
-        } else
+        }
+        else
         {
             break;
         }
@@ -139,7 +131,8 @@ static void AddAsset(List<Asset> assetList, bool isComputer)
         if (string.IsNullOrWhiteSpace(office))
         {
             UserFeedback("Please enter an Office");
-        } else
+        }
+        else
         {
             break;
         }
@@ -198,10 +191,6 @@ static void AddAsset(List<Asset> assetList, bool isComputer)
         case "USD":
             localPriceToday = priceUSD;
             break;
-        default:
-            UserFeedback("Invalid input");
-            //ShowMainMenu();
-            break;
     }
 
     if (isComputer)
@@ -216,23 +205,20 @@ static void AddAsset(List<Asset> assetList, bool isComputer)
         Asset asset = new Phone(type, brand, model, office, purchaseDate, priceUSD, currency, localPriceToday);
         assetList.Add(asset);
     }
-    UserFeedback("Your Asset was successfully added",false);
+    UserFeedback("Your Asset was successfully added", false);
     UserFeedback("\nPress any key to Continue", false);
     Console.ReadLine();
     ShowMainMenu(assetList);
 }
-
-
 static void ShowMainMenu(List<Asset> assetList)
 {
     Console.Clear();
     Console.WriteLine("1-Add an Asset");
     Console.WriteLine("2-List Products");
-    //Console.WriteLine("3-Search a Product");
     Console.WriteLine("0-Quit");
-
     Console.Write("\nEnter a Number: ");
     string userInput = Console.ReadLine();
+
     switch (userInput)
     {
         case "1":
@@ -254,7 +240,6 @@ static void ShowMainMenu(List<Asset> assetList)
     }
 
 }
-
 static void UserFeedback(string msg, bool errorMsg = true)
 {
     if (errorMsg)
@@ -273,43 +258,3 @@ static void UserFeedback(string msg, bool errorMsg = true)
 }
 
 ShowMainMenu(assetList);
-
-//for (int i = 0; i < 10; i++)
-//{
-
-//    // Call the method to generate a random date
-//    DateOnly randomDate = GenerateRandomDate(startDate, endDate);
-
-
-
-//    if (randomDate.AddYears(3) < endDate) {
-//        Console.ForegroundColor = ConsoleColor.Red;
-//        Console.WriteLine($"{randomDate:yyyy-MM-dd}");
-//        Console.ForegroundColor = ConsoleColor.Green;
-//    }
-//    else
-//    {
-//    // Output the random date
-//    Console.WriteLine($"{randomDate:yyyy-MM-dd}");
-//    }
-//}
-
-
-//static DateOnly GenerateRandomDate(DateOnly startDate, DateOnly endDate)
-//{
-//    // Convert DateOnly to DateTime for arithmetic operations
-//    DateTime startDateTime = new DateTime(startDate.Year, startDate.Month, startDate.Day);
-//    DateTime endDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day);
-
-//    // Create an instance of Random class
-//    Random random = new Random();
-
-//    // Generate a random number of days to add to the start date
-//    int range = (int)(endDateTime - startDateTime).TotalDays;
-//    DateTime randomDateTime = startDateTime.AddDays(random.Next(range));
-
-//    // Convert random DateTime back to DateOnly
-//    DateOnly randomDate = new DateOnly(randomDateTime.Year, randomDateTime.Month, randomDateTime.Day);
-
-//    return randomDate;
-//}
